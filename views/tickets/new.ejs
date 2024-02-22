@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <nav>
+    <a href="/tickets/new">Add Ticket</a>
+    <a href="/flights/new">Add Flight</a>
+    <a href="/flights">All Flights</a>
+  </nav>
+  <main>
+    <select>
+      <% tickets.forEach(t => { %>
+       <option>
+        <%= t.name %>
+       </option>
+      <% }) %>
+    </select>
+    <form action="/tickets" id="add-ticket-form" method="POST">
+      <label>Seat: </label>
+      <input type="text" name="seat" placeholder="A1 - F99">
+      <label>Price: </label>
+      <input type="number" name="price">
+      <label>Flight: </label>
+      <input type="submit" value="Add Ticket">
+    </form>
+  </main>
+</body>
+  <style>
+
+    body {
+      padding: 0;
+      font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+      margin: 0;
+      background-color: #dfecff;
+
+    }
+    
+    nav{
+      background-color: pink;
+      margin: 0;
+      padding: 30px;
+      display: flex;
+      justify-content: space-around;
+      position: sticky;
+    }
+    
+    a {
+      color: #160979;
+      text-decoration: none;
+      font-size: 20px;
+    }
+    
+    </style>
+</html>

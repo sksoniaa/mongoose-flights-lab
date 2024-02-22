@@ -1,7 +1,7 @@
 const FlightModel = require('../models/flight')
 
 module.exports = {
-  create
+  create,
 }
 
 async function create(req, res) {
@@ -18,3 +18,4 @@ async function create(req, res) {
     res.send(err)
   }
 }
+

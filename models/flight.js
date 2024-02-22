@@ -10,7 +10,9 @@ const destinationSchema = new Schema({
     type: String,
     enum: ['AUS', 'DFW', 'DEN', 'LAX', 'SAN']
   },
-  arrival: Date
+  arrival: {
+    type: Date,
+  }
 }, {
   timestamps: true
 })
@@ -39,6 +41,10 @@ const flightSchema = new Schema({
         return today;
       }
     },
+    ticketsList: [{
+      type: Schema.Types.ObjectId, // this is from mongoose
+      ref: 'Ticket'
+    }],
     destinations: [destinationSchema]
 }, {
   timestamps: true

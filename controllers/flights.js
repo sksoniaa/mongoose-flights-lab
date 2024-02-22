@@ -1,4 +1,5 @@
 const FlightModel = require('../models/flight');
+const TicketModel = require('../models/ticket')
 
 module.exports = {
   new:newFlight,
@@ -10,11 +11,18 @@ module.exports = {
 
 async function show(req, res) {
   try{
-    const flightFromTheDatabase = await FlightModel.findById(req.params.id)
+    const flightFromTheDatabase = await FlightModel
+                                        .findById(req.params.id)
+                                        .populate('ticketsList')
+                                        .exec()
     console.log(flightFromTheDatabase);
 
+
+    const ticketsNotInTheFlight = await TicketModel.find({_id: {$nin: flightFromTheDatabase}})
+
     res.render('flights/show', {
-      flight: flightFromTheDatabase
+      flight: flightFromTheDatabase,
+      tickets: ticketsNotInTheFlight
     });
   } catch(err) {
     res.send(err)
@@ -46,18 +54,18 @@ function newFlight(req, res) {
 }
 
 async function create(req, res){
-	console.log(req.body, " <- is the contents of our form!")
-
+  console.log(req.body, " <- is the contents of our form!")
+  
 	try {
     // await says wait for the model to finish going to mongodb
     // atlas and comiing back before you run the code after it
-
+    
     // only use await on your model
-		const createdFlightDoc = await FlightModel.create(req.body)
+		const flightFromTheDatabase = await FlightModel.create(req.body)
 		// for now redirect to new page
-		res.redirect('/flights/new')
+		res.redirect(`/flights/${flightFromTheDatabase._id}`)
 	} catch(err){
-		console.log(err)
-		res.redirect('/flights/new')
+    console.log(err)
+	  res.redirect("flights/new");
 	}
 }
